@@ -277,7 +277,7 @@ def getResponse(uIn=""):
 uIn = "" #user input variable
 print("[Say hi!]\n\n")
 
-while "bye" not in uIn and "exit" not in uIn: #exit conversation when user input contains "bye" or "exit"
+while "bye" not in uIn.lower() and "exit" not in uIn: #exit conversation when user input contains "bye" or "exit"
 	if uIn != "": #make sure input isn't blank
 		if saveAnswer == True and '?' not in uIn: #check if answer is expected to be saved
 			tagged = findAnswer(uIn, lastType)
@@ -290,5 +290,5 @@ while "bye" not in uIn and "exit" not in uIn: #exit conversation when user input
 	print()
 
 printResponse("See you soon!")
-
+convoFile.close()
 exit()
