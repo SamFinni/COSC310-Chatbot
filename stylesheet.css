@@ -46,9 +46,13 @@ body {
 	width: 98%;
 	padding: 8px 16px 8px 16px;
 }
-.you .message, .bot .message {
+.you .message {
 	border-radius: 24px;
 	background-image: linear-gradient(to top left, #bcd2f5, #5990e7);
+}
+.bot .message {
+	border-radius: 24px;
+	background-image: linear-gradient(to bottom right, #bcd2f5, #5990e7);
 }
 .system .message {
 	background-image: linear-gradient(to bottom right, #a6f1a6, #64a664);
