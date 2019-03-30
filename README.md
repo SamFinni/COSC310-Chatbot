@@ -3,6 +3,36 @@
 
 This chatbot will initiate a conversation with the user, interacting with them like a friend. It will be able to understand the gist of what the user is saying, and (hopefully) respond in an appropriate way.
 
+
+<h3>Features:</h3>
+Web interface
+Variety of topics
+Handles small spelling mistakes and differences (synonyms) [todo]
+Uses NLTK (Natural Language Toolkit)
+Can connect to other chatbots via sockets
+
+
+<h3>Usage:</h3>
+
+This program is to be hosted on a Linux web server. It uses PHP to connect the Python backend script to a simple HTML frontend, which is visible to the user.
+
+Note: `chatbot.php` must be able to execute the Python script as sudo, in order for the script to execute sent_tokenizer.pickle; make sure your system allows this for your web server user. An easy way to accomplish this in Linux is by adding the following line to your `sudoers` file:
+
+`www  ALL=(root) NOPASSWD: path/to/python`
+
+Where `www` is your web server user.
+
+Also, make sure you change the following line in `chatbot.php` to point to your own Python installation location:
+
+`shell_exec('/usr/bin/sudo /opt/rh/rh-python36/root/usr/bin/python charles.py '.$srcPort.' > /dev/null 2>&1 &');`
+
+All conversation topics are handled dynamically in `convo.dat`. The first line of a topic is structured as follows:
+
+<b>`. or ?` `keywords` (`^variable.wordType` OR `+`)</b>
+
+The chatbot script will timeout after 60 seconds, to prevent abuse.
+
+
 <h3>Dependencies:</h3>
 The NLTK Python library must first be downloaded. Installation instructions can be found <a href="https://www.nltk.org/install.html">here.</a>
 
@@ -17,11 +47,6 @@ nltk.download('vader_lexicon')
 nltk.download('averaged_perceptron_tagger')
 ```
 
-<h3>Usage:</h3>
-
-All conversation topics are handled dynamically in `convo.dat`. The first line of a topic is structured as follows:
-
-<b>`. or ?` `keywords` (`^variable.wordType` OR `+`)</b>
 
 <h3>Explanation:</h3>
 
@@ -36,16 +61,11 @@ All conversation topics are handled dynamically in `convo.dat`. The first line o
 `+`: Used when expecting to detect the positivity of the user's following response.
 Note: Only one of `^variable.wordType` and `+` may be used at a time. In other words, the chatbot cannot handle both determining the positivity of the user's next response as well as saving a certain answer from it.
 
-
-
-
 The rest of the topic is separated by newlines, with the bot waiting a response between each line before printing the next line.
 
 In order to reference a saved answer from the user (`^variable` from before), simply put `$variable` in the bot's response, which will be replaced by the saved answer. Note that an answer must first be saved before it can be called like this. Otherwise, it will return "NaN" instead.
 
 When using the `+` operator, the following 3 lines must start with `+` (positive), `-` (negative), and `0` (neutral), in any order. The positivity score of the user's last response will be used to determine which of these three responses to output.
-
-
 
 
 <h3>Restrictions:</h3>
@@ -63,7 +83,6 @@ Can't both save an answer and determine the positivity of a single user response
 If the `+` operator is used, the next 3 lines MUST start with each one of `+`, `-`, and `0`.
 
 
-
 <h3>Potential Updates:</h3>
 
 1. Take context into account
@@ -76,6 +95,4 @@ If the `+` operator is used, the next 3 lines MUST start with each one of `+`, `
 
 5. Use first character of topics (. or ?) to weight responses
 
-6. Create and link non-CLI UI
-
-7. Allow wildcards in topic keywords (eg, 'fav*' matches fave, favorite, and favourite)
+6. Allow wildcards in topic keywords (eg, 'fav*' matches fave, favorite, and favourite) or look up synonyms

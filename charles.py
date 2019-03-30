@@ -6,13 +6,17 @@
 # NLTK averaged_perceptron_tagger
 
 import string
+import socket
+import sys
 import nltk
 import pickle
-from nltk.tokenize import PunktSentenceTokenizer
 from nltk.tokenize import word_tokenize
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+host = '127.0.0.1'
+dstPort = int(sys.argv[1])
 convoFile = open("convo.dat", "r")
 topic = 0 #current topic
 seq = 0 #current line of topic
@@ -152,8 +156,8 @@ def getTopic(sequence=2):
 			return line
 	return "Response not found"
 
-#prints the found response, dealing with placeholder values
-def printResponse(response):
+#sends the found response, dealing with placeholder values
+def sendResponse(response):
 	global saveAnswer
 	global lastAnswer
 	global lastType
@@ -193,8 +197,8 @@ def printResponse(response):
 	# remove newline character
 	if output[-1:] == '\n':
 		output = output[:-1]
-	# print final output and increment seq
-	print(output)
+	# send final output to web server and increment seq
+	s.sendto(output.encode('utf-8'), (host, dstPort))
 	seq += 1
 
 #finds most appropriate topic from user input
@@ -262,33 +266,43 @@ def getResponse(uIn=""):
 	global seq
 
 	if '?' in uIn: #if user asked a question
-		printResponse(findTopic(uIn))
+		sendResponse(findTopic(uIn))
 	elif posNext == True: #if user didn't ask a question, and expect a pos/neg/neutral response next
-		printResponse(posResponse(uIn))
+		sendResponse(posResponse(uIn))
 	else:
 		line = convoFile.readline()
 		if line != "\n": #if current topic has more lines, continue
-			printResponse(line)
+			sendResponse(line)
 		else: #reset sequence and find new topic
 			seq = 2
-			printResponse(findTopic(uIn))
+			sendResponse(findTopic(uIn))
 
-# Start of conversation
+#start of program & conversation
 uIn = "" #user input variable
-print("[Say hi!]\n\n")
+s.settimeout(60) #set timeout to 60 seconds
+s.sendto("CONNECT".encode('utf-8'), (host, dstPort))
+#s.connect((host, dstPort)) #connect to calling server
+timeout = False #timeout flag
 
-while "bye" not in uIn.lower() and "exit" not in uIn: #exit conversation when user input contains "bye" or "exit"
+#exit conversation when user input contains "bye" or "exit", or if socket times out
+while "bye" not in uIn.lower() and "exit" not in uIn.lower() and not timeout:
 	if uIn != "": #make sure input isn't blank
 		if saveAnswer == True and '?' not in uIn: #check if answer is expected to be saved
 			tagged = findAnswer(uIn, lastType)
 			memory[lastAnswer] = tagged
 			saveAnswer = False
 		getResponse(uIn.lower())
-		print()
 
-	uIn = input()
-	print()
+	try:
+		print("receiving")
+		uIn, server = s.recvfrom(1024) #get user input from web server
+		uIn = uIn.decode("utf-8")
+		print(uIn)
+		print("received")
+	except socket.timeout:
+		timeout = True
 
-printResponse("See you soon!")
+sendResponse("See you soon!")
 convoFile.close()
+s.close()
 exit()
