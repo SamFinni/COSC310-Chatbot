@@ -6,6 +6,7 @@
 # NLTK averaged_perceptron_tagger
 
 import string
+from random import randint
 import socket
 import sys
 import nltk
@@ -13,6 +14,7 @@ import pickle
 from nltk.tokenize import word_tokenize
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from nltk.corpus import wordnet
 
 t = 120; #socket timeout in seconds
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -112,11 +114,20 @@ def posResponse(uIn):
 
 	return line
 
-#find if any word in a string array (words) is in a string (s)
+#find if any word in a string array (words) is in a string (s) or its synonyms
 def findWord(words, s):
-	for w in words:
-		if (' ' + w + ' ') in (' ' + s.translate(str.maketrans('', '', string.punctuation)) + ' '):
-			return True
+	#remove punctuation from user input and split into words
+	user = s.translate(str.maketrans('', '', string.punctuation)).split(' ');
+
+	#compare all synonyms of each word in 's' to each word in 'words'
+	for uw in user:
+		synonyms = [uw]
+		for syn in wordnet.synsets(uw):
+			for lem in syn.lemmas():
+				synonyms.append(lem.name())
+		for w in words:
+			if w in synonyms:
+				return True
 
 #checks if current topic has more lines or not
 def topicContinues():
@@ -253,12 +264,12 @@ def findTopic(uIn):
 					return posResponse(uIn)
 				else: #if user asked question and not expecting answer, continue topic
 					return getTopic(seq)
-			else: #if not in the middle of a topic and user asks question, give default question response
-				topic = 1
+			else: #if not in the middle of a topic and user asks question, give a random default question response
+				topic = randint(5,9)
 				seq = 2
 				return getTopic()
-		else: #if user says unknown statement, give default statement response
-			topic = 0
+		else: #if user says unknown statement, give a random default statement response
+			topic = randint(0,4)
 			seq = 2
 			return getTopic()
 

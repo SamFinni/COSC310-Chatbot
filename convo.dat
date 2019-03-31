@@ -2,8 +2,32 @@
 .*
 Awesome!
 
+.*
+Ask me what my favorite sport is!
+
+.*
+Good to hear.
+
+.*
+Try asking me a question :D
+
+.*
+Ask me what I like to eat!
+
 ?*
 I'm sorry, I didn't understand that.
+
+?*
+I don't want to answer that :(
+
+?*
+Ask a different question!
+
+?*
+Wait a minute, who are you?!
+
+?*
+Wait, what are you asking?
 
 .hi/hello/hey
 Hi, nice to meet you! My name's Charles. What's your name?^name.NNP
@@ -12,22 +36,22 @@ So tell me $name, what do you like to do?^like.VB
 You like to $like huh? That's pretty neat. What do you like most about it?
 I see, that does sound enjoyable!
 
-.thanks/thank/thx
+.thank/thx
 You're welcome!
 
-?what&like/enjoy&do/doing
+?what&like/enjoy&do
 I like talking to people like you!
 
-?why&do&you&like&that/talk/talking
+?why&do&you&like&that/talk
 Mainly because it's the only thing I know how to do, I suppose. But I especially like talking to you!
 
-.i&like&talking&with/to&you&too
+.i&like&talk&with/to&you&too
 Aww, thanks!
 
 ?do&you&like
 Yeah, I think I do like that!
 
-?how&are&you&doing
+?how&are&you&do
 I'm doing great, although it is a bit cramped inside this computer. How are you?+
 +Glad to hear it!
 -Oh, I'm sorry to hear that.
@@ -44,13 +68,13 @@ Do you play football?+
 ?why&football
 Because it's the biggest and best sport in the world!
 
-?how&know&biggest/best&sport&world
+?how&know&big/best&sport&world
 Because my internal searches said so.
 
 ?is&it&football&or&soccer
 It's called soccer in North America, but football everywhere else.
 
-?who/whos&favorite/favourite&football/soccer&player
+?who&favorite/favourite&football/soccer&player
 My favourite football player is Cristiano Ronaldo!
 
 ?what&nationality&cristiano/ronaldo
@@ -63,7 +87,7 @@ $club sounds like a good club.
 Who's the best player at $club?
 Oh yeah, I think I've heard of him before.
 
-?how&many&ballon/ballondors&do/does&have
+?how&many&ballon/ballondors&do&have
 He's won 5 ballon d'Ors!
 
 ?what&you&do&during/each&day
@@ -76,7 +100,7 @@ Do you usually have breakfast or skip it?+
 -It's one of the most important meals and a good way to start your day!
 0It's one of the most important meals and a good way to start your day!
 
-?do&you&like/have&animals/pets
+?do&you&like/have&animal/pet
 I don't have any pets, but I love dogs! Do you have any pets?+
 +You do? What's the name of your pet?^pet.NNP
 -You can always adopt one!

@@ -1,15 +1,23 @@
 # Charles the Chatbot
+<h5>By Samual Finnigan-Griffin</h5>
 
 
 This chatbot will initiate a conversation with the user, interacting with them like a friend. It will be able to understand the gist of what the user is saying, and (hopefully) respond in an appropriate way.
 
 
 <h3>Features:</h3>
-Web interface
-Variety of topics
-Handles small spelling mistakes and differences (synonyms) [todo]
 Uses NLTK (Natural Language Toolkit)
-Can connect to other chatbots via sockets
+<ul>
+	<li>POS tagging</li>
+	<li>Synonym matching</li>
+	<li>Lemmatizing (word stems)</li>
+</ul>
+Usable on public-facing web server (PHP backend)
+HTML/CSS interface
+Variety of topics
+Handles small spelling mistakes [todo]
+Many (5+) different responses to unknown user inputs
+Can connect to other chatbots via sockets (with some tinkering of charles.py)
 
 
 <h3>Usage:</h3>
@@ -96,3 +104,61 @@ If the `+` operator is used, the next 3 lines MUST start with each one of `+`, `
 5. Use first character of topics (. or ?) to weight responses
 
 6. Allow wildcards in topic keywords (eg, 'fav*' matches fave, favorite, and favourite) or look up synonyms
+
+
+
+<h1>Assignment Documentation</h1>
+
+
+<h4>Feature List</h4>
+
+<ul>
+<li>GUI</li>
+This allowed the chatbot system to look much more appealing to an average user, and further helped the 'friendly' aspect of the bot.
+<li>Web Server Backend</li>
+By allowing Charles to be hosted on a public-facing web server, it makes him much more accessible, as instead of having to give someone a program they have to set up and run in an interpreter, they can simply enter a web address into their browser.
+<li>Extra Topics</li>
+Adding more topics makes the chatbot system more diverse, able to respond to users in a wider array of situations. This makes Charles seem more realistic
+<li>5+ Reasonable Responses</li>
+When Charles doesn't understand the user, it's more user-friendly for him to respond in a multitude of ways, instead of repeating "I didn't understand that" over and over. This also allows for a bit of personality to be added.
+<li>Spelling Mistake Handling</li>
+Allowing him to understand the user, even if words are slightly mispelled, goes a long way in reducing frustration and increasing believability.
+<li>POS Tagging</li>
+Using NLTK to handle POS tagging allows Charles to retrieve the appropriate piece of a user's response. When he uses parts of the user's response in return, this makes him seem even more real.
+<li>Synonym Recognition</li>
+Similar to the spelling mistake handling, allowing Charles to understand words that aren't exactly what he expects makes him seem like he can understand real conversation.
+<li>Conversation with another agent</li>
+Enabling Charles to be able to speak with another chatbot shows some interesting aspects of both bots, as well as potentially enabling easier, more dynamic testing to be done.
+</ul>
+
+
+<h4>Level 0 DFD</h4>
+<img src="https://finnigan.me/chatbot/DFD0.png">
+
+<h4>Level 1 DFD</h4>
+<img src="https://finnigan.me/chatbot/DFD1.png">
+
+<h4>GitHub Graphs</h4>
+[todo]
+
+<h4>Sample Output</h4>
+[todo]
+
+
+<h4>5 Extractable Features</h4>
+As Charles was programmed to be as modular as possible, many of his functions can be reused:
+
+<b>findAnswer(uIn, wordType)</b>
+This function searches the user's sentence for a certain type of word (noun, verb, etc.), and returns the word best matching this type, if possible.
+
+<b>posResponse(uIn)</b>
+This function takes the user's response, and puts it through a language processor that gives it a positivity 'score'; how positive or negative it is in general.
+
+<b>findWord(words, s)</b>
+This function takes an array of words `words` and compares it to a string `s`. If any word in `s`, or any of their synonyms, match a word in `words`, the function returns `True`.
+
+<b>getResponse(uIn="")</b>
+This function takes the user's input, and depending on whether a) it's a question, b) the system wants to get the positivity of the user's next response, or c) none of the above, it sends the input to different functions. This can be tweaked slightly, depending on the format of another chatbot.
+
+<b>lemma(word)</b>
+This function takes any word `word`, and lemmatizes it (gets its root word).
