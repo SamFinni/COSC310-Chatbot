@@ -13,10 +13,15 @@ Uses NLTK (Natural Language Toolkit)
 	<li>Lemmatizing (word stems)</li>
 </ul>
 Usable on public-facing web server (PHP backend)
+
 HTML/CSS interface
+
 Variety of topics
+
 Handles small spelling mistakes [todo]
+
 Many (5+) different responses to unknown user inputs
+
 Can connect to other chatbots via sockets (with some tinkering of charles.py)
 
 
@@ -38,7 +43,7 @@ All conversation topics are handled dynamically in `convo.dat`. The first line o
 
 <b>`. or ?` `keywords` (`^variable.wordType` OR `+`)</b>
 
-The chatbot script will timeout after 60 seconds, to prevent abuse.
+The chatbot script will timeout after 120 seconds, to prevent abuse.
 
 
 <h3>Dependencies:</h3>
@@ -80,7 +85,7 @@ When using the `+` operator, the following 3 lines must start with `+` (positive
 
 `convo.dat` file must begin with an empty line, and end with two empty lines.
 
-First 2 topics of convo.dat must be default statement response and default question response, respectively.
+First 5 topics of convo.dat must be default statement responses, followed by 5 default question responses.
 
 Correlation algorithm likely won't scale well when many more topics are added.
 
@@ -148,17 +153,17 @@ Enabling Charles to be able to speak with another chatbot shows some interesting
 <h4>5 Extractable Features</h4>
 As Charles was programmed to be as modular as possible, many of his functions can be reused:
 
-<b>findAnswer(uIn, wordType)</b>
+<b>findAnswer(uIn, wordType):</b>
 This function searches the user's sentence for a certain type of word (noun, verb, etc.), and returns the word best matching this type, if possible.
 
-<b>posResponse(uIn)</b>
+<b>posResponse(uIn):</b>
 This function takes the user's response, and puts it through a language processor that gives it a positivity 'score'; how positive or negative it is in general.
 
-<b>findWord(words, s)</b>
+<b>findWord(words, s):</b>
 This function takes an array of words `words` and compares it to a string `s`. If any word in `s`, or any of their synonyms, match a word in `words`, the function returns `True`.
 
-<b>getResponse(uIn="")</b>
+<b>getResponse(uIn=""):</b>
 This function takes the user's input, and depending on whether a) it's a question, b) the system wants to get the positivity of the user's next response, or c) none of the above, it sends the input to different functions. This can be tweaked slightly, depending on the format of another chatbot.
 
-<b>lemma(word)</b>
+<b>lemma(word):</b>
 This function takes any word `word`, and lemmatizes it (gets its root word).
