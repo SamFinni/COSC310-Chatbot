@@ -14,6 +14,7 @@ from nltk.tokenize import word_tokenize
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
+t = 120; #socket timeout in seconds
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 host = '127.0.0.1'
 dstPort = int(sys.argv[1])
@@ -279,7 +280,7 @@ def getResponse(uIn=""):
 
 #start of program & conversation
 uIn = "" #user input variable
-s.settimeout(60) #set timeout to 60 seconds
+s.settimeout(t) #set socket timeout
 s.sendto("CONNECT".encode('utf-8'), (host, dstPort))
 #s.connect((host, dstPort)) #connect to calling server
 timeout = False #timeout flag
