@@ -82,6 +82,9 @@ for ($i = 0; $i < sizeof($_SESSION['convo']); $i += 2) {
 	$userResponse = $_SESSION['convo'][$i];
 	$botResponse = $_SESSION['convo'][$i+1];
 	if ($userResponse != '')
+		// sanitize user input
+		$userResponse = str_replace("<", "", $userResponse);
+		$userResponse = str_replace(">", "", $userResponse);
 		echo "<div class='you'><div class='message'>".$userResponse."</div></div>";
 	if ($botResponse != '')
 		echo "<div class='bot'><div class='message'>".$botResponse."</div></div>";
@@ -98,7 +101,7 @@ if (sizeof($_SESSION['convo']) >= 1) {
 ?>
 				</div>
 				<form id='input' method='post'>
-					<textarea id='uInput' name='uInput' onkeydown="submitOnEnter(event)" placeholder="Say something..."></textarea>
+					<textarea autofocus id='uInput' name='uInput' onkeydown="submitOnEnter(event)" placeholder="Say something..."></textarea>
 					<button id='send'>Send</button>
 				</form>
 			</div>
