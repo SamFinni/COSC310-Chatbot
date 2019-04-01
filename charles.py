@@ -1,11 +1,15 @@
 # MUST DOWNLOAD:
 # NLTK
-# NLTK punkt
-# NLTK wordnet
-# NLTK vader_lexicon
-# NLTK averaged_perceptron_tagger
+## NLTK punkt
+## NLTK wordnet
+## NLTK vader_lexicon
+## NLTK averaged_perceptron_tagger
+#
+# pattern
 
 import string
+from string import punctuation
+import re
 from random import randint
 import socket
 import sys
@@ -15,8 +19,9 @@ from nltk.tokenize import word_tokenize
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from nltk.corpus import wordnet
+from pattern.en import suggest
 
-t = 120; #socket timeout in seconds
+t = 120 #socket timeout in seconds
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 host = '127.0.0.1'
 dstPort = int(sys.argv[1])
@@ -28,22 +33,54 @@ saveAnswer = False #whether to expect an answer to put into 'memory'
 posNext = False #whether to expect an answer where positivity level must be determined
 lastAnswer = "" #holds last saved answer variable (eg, 'name')
 lastType = "" #holds word type of expected answer (eg, 'NNP' [proper noun])
+#load tokenizer
+with open('sent_tokenizer.pickle', 'rb') as f:
+	tokenizer = pickle.load(f)
 
 #try to get word stem
 def lemma(word):
 	l = nltk.WordNetLemmatizer()
 
 	if l.lemmatize(word, pos='v') != word:
-		answer = l.lemmatize(word, pos='v')
+		stem = l.lemmatize(word, pos='v')
 	else:
-		answer = l.lemmatize(word)
+		stem = l.lemmatize(word)
 
-	return answer
+	return stem
+
+#shortens 3+ occurences of same character in a row down to 2
+def shortenWords(uIn):
+	pattern = re.compile(r"(.)\1{2,}")
+	return pattern.sub(r"\1\1", uIn)
+
+#spellcheck a string
+def spellCheck(uIn):
+	uIn = shortenWords(uIn)
+	unchecked = uIn.split(' ')
+	checked = ""
+	end = ""
+
+	#preserves punctuation at end of user's input
+	if any(p in uIn[-1:] for p in punctuation):
+		end = uIn[-1:]
+
+	first = True #check for first run to prevent leading space
+	for w in unchecked:
+		suggestion = suggest(w)
+		word = suggestion[0][0]
+		for i in suggestion:
+			if (w == i[0] or w[0].isupper()):
+				word = w
+		if not first:
+			checked += ' '
+		else:
+			first = False
+		checked += word
+	return checked + end
 
 #get the relevant word from the user's answer
 def findAnswer(uIn, wordType):
-	with open('sent_tokenizer.pickle', 'rb') as f:
-		tokenizer = pickle.load(f)
+	global tokenizer
 
 	#if only one word is found
 	if len(uIn.split(' ')) == 1:
@@ -71,22 +108,24 @@ def findAnswer(uIn, wordType):
 			elif worseType in tagged[i][1]:
 				worseMatches += 1
 
-		# finds best answer found in user's sentence; if none or can't decide, returns NaN
+		# finds best answer found in user's sentence. if none, returns NaN
 		answer = "NaN"
-		if matches == 1:
-			for i in range(0, len(tagged)):
+		if matches >= 1:
+			for i in range(len(tagged)-1, -1, -1):
 				if tagged[i][1] == wordType:
 					answer = lemma(tagged[i][0])
 					if "NN" not in tagged[i][1]:
 						answer = answer.lower()
-		elif worseMatches == 1:
-			for i in range(0, len(tagged)):
+					return answer
+		elif worseMatches >= 1:
+			for i in range(len(tagged)-1, -1, -1):
 				if tagged[i][0] == "like":
 					pass
 				elif worseType in tagged[i][1]:
-						answer = lemma(tagged[i][0])
-						if "NN" not in tagged[i][1]:
-							answer = answer.lower()
+					answer = lemma(tagged[i][0])
+					if "NN" not in tagged[i][1]:
+						answer = answer.lower()
+					return answer
 		return answer
 	except Exception as e:
 		print(str(e))
@@ -114,10 +153,10 @@ def posResponse(uIn):
 
 	return line
 
-#find if any word in a string array (words) is in a string (s) or its synonyms
-def findWord(words, s):
+#find if any word in a string array (words) is in a string (uIn) or its synonyms
+def findWord(words, uIn):
 	#remove punctuation from user input and split into words
-	user = s.translate(str.maketrans('', '', string.punctuation)).split(' ');
+	user = uIn.translate(str.maketrans('', '', string.punctuation)).split(' ')
 
 	#compare all synonyms of each word in 's' to each word in 'words'
 	for uw in user:
@@ -170,6 +209,7 @@ def getTopic(sequence=2):
 
 #sends the found response, dealing with placeholder values
 def sendResponse(response):
+	global s
 	global saveAnswer
 	global lastAnswer
 	global lastType
@@ -182,9 +222,9 @@ def sendResponse(response):
 
 	if '$' in response: #deals with $ (variable placeholders)
 		r = response.split(' ')
-		for e in r:
-			if '$' in e:
-				r2 = e
+		for w in r:
+			if '$' in w:
+				r2 = w
 		index = r.index(r2)
 		r2 = r2.translate(str.maketrans('', '', string.punctuation))
 		if r2[-1:] == '\n':
@@ -210,6 +250,7 @@ def sendResponse(response):
 	if output[-1:] == '\n':
 		output = output[:-1]
 	# send final output to web server and increment seq
+	print("Sent: " + output)
 	s.sendto(output.encode('utf-8'), (host, dstPort))
 	seq += 1
 
@@ -293,7 +334,6 @@ def getResponse(uIn=""):
 uIn = "" #user input variable
 s.settimeout(t) #set socket timeout
 s.sendto("CONNECT".encode('utf-8'), (host, dstPort))
-#s.connect((host, dstPort)) #connect to calling server
 timeout = False #timeout flag
 
 #exit conversation when user input contains "bye" or "exit", or if socket times out
@@ -306,11 +346,11 @@ while "bye" not in uIn.lower() and "exit" not in uIn.lower() and not timeout:
 		getResponse(uIn.lower())
 
 	try:
-		print("receiving")
+		print("Receiving..")
 		uIn, server = s.recvfrom(1024) #get user input from web server
 		uIn = uIn.decode("utf-8")
-		print(uIn)
-		print("received")
+		print("Received: " + uIn)
+		uIn = spellCheck(uIn)
 	except socket.timeout:
 		timeout = True
 

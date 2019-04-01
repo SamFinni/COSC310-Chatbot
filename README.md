@@ -18,7 +18,7 @@ HTML/CSS interface
 
 Variety of topics
 
-Handles small spelling mistakes [todo]
+Handles small spelling mistakes
 
 Many (5+) different responses to unknown user inputs
 
@@ -29,13 +29,13 @@ Can connect to other chatbots via sockets (with some tinkering of charles.py)
 
 This program is to be hosted on a Linux web server. It uses PHP to connect the Python backend script to a simple HTML frontend, which is visible to the user.
 
-Note: `chatbot.php` must be able to execute the Python script as sudo, in order for the script to execute sent_tokenizer.pickle; make sure your system allows this for your web server user. An easy way to accomplish this in Linux is by adding the following line to your `sudoers` file:
+Note: `index.php` must be able to execute the Python script as sudo, in order for the script to execute sent_tokenizer.pickle; make sure your system allows this for your web server user. An easy way to accomplish this in Linux is by adding the following line to your `sudoers` file:
 
 `www  ALL=(root) NOPASSWD: path/to/python`
 
 Where `www` is your web server user.
 
-Also, make sure you change the following line in `chatbot.php` to point to your own Python installation location:
+Also, make sure you change the following line in `index.php` to point to your own Python installation location:
 
 `shell_exec('/usr/bin/sudo /opt/rh/rh-python36/root/usr/bin/python charles.py '.$srcPort.' > /dev/null 2>&1 &');`
 
@@ -138,10 +138,10 @@ Enabling Charles to be able to speak with another chatbot shows some interesting
 
 
 <h4>Level 0 DFD</h4>
-<img src="https://finnigan.me/chatbot/DFD0.png">
+<img src="https://finnigan.me/chatbot/DFD0.png?">
 
 <h4>Level 1 DFD</h4>
-<img src="https://finnigan.me/chatbot/DFD1.png">
+<img src="https://finnigan.me/chatbot/DFD1.png?">
 
 <h4>GitHub Graphs</h4>
 [todo]
@@ -153,17 +153,18 @@ Enabling Charles to be able to speak with another chatbot shows some interesting
 <h4>5 Extractable Features</h4>
 As Charles was programmed to be as modular as possible, many of his functions can be reused:
 
+
 <b>findAnswer(uIn, wordType):</b>
 This function searches the user's sentence for a certain type of word (noun, verb, etc.), and returns the word best matching this type, if possible.
 
 <b>posResponse(uIn):</b>
 This function takes the user's response, and puts it through a language processor that gives it a positivity 'score'; how positive or negative it is in general.
 
-<b>findWord(words, s):</b>
+<b>findWord(words, uIn):</b>
 This function takes an array of words `words` and compares it to a string `s`. If any word in `s`, or any of their synonyms, match a word in `words`, the function returns `True`.
 
-<b>getResponse(uIn=""):</b>
-This function takes the user's input, and depending on whether a) it's a question, b) the system wants to get the positivity of the user's next response, or c) none of the above, it sends the input to different functions. This can be tweaked slightly, depending on the format of another chatbot.
+<b>spellCheck(uIn):</b>
+This function spellchecks the user's sentence, and returns the corrected string.
 
 <b>lemma(word):</b>
 This function takes any word `word`, and lemmatizes it (gets its root word).
