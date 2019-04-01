@@ -162,7 +162,7 @@ This function searches the user's sentence for a certain type of word (noun, ver
 This function takes the user's response, and puts it through a language processor that gives it a positivity 'score'; how positive or negative it is in general.
 
 <b>findWord(words, uIn):</b>
-This function takes an array of words `words` and compares it to a string `s`. If any word in `s`, or any of their synonyms, match a word in `words`, the function returns `True`.
+This function takes an array of words `words` and compares it to a string `uIn`. If any word in `s`, or any of their synonyms, match a word in `words`, the function returns `True`.
 
 <b>spellCheck(uIn):</b>
 This function spellchecks the user's sentence, and returns the corrected string.
