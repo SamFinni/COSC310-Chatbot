@@ -48,9 +48,12 @@ The chatbot script will timeout after 120 seconds, to prevent abuse.
 
 
 <h3>Dependencies:</h3>
-The NLTK Python library must first be downloaded. Installation instructions can be found <a href="https://www.nltk.org/install.html">here.</a>
+The NLTK Python library must first be downloaded. Installation instructions for each can be found here:
 
-The simplest way is to run `python -m pip install nltk`
+<a href="https://www.nltk.org/install.html">NLTK</a></br>
+<a href="https://github.com/clips/pattern#installation">Pattern</a>
+
+The simplest way is to run `python -m pip install nltk`, and then `python -m pip install pattern`
 Then, a few NLTK modules must be downloaded. They can be downloaded by running Python in the command line and typing the following:
 
 ```
