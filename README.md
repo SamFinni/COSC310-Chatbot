@@ -12,6 +12,7 @@ Uses NLTK (Natural Language Toolkit)
 	<li>Synonym matching</li>
 	<li>Lemmatizing (word stems)</li>
 </ul>
+
 Usable on public-facing web server (PHP backend)
 
 HTML/CSS interface
@@ -138,10 +139,10 @@ Enabling Charles to be able to speak with another chatbot shows some interesting
 
 
 <h4>Level 0 DFD</h4>
-<img src="https://finnigan.me/chatbot/DFD0.png?">
+<img src="https://finnigan.me/chatbot/DFD0.png?1">
 
 <h4>Level 1 DFD</h4>
-<img src="https://finnigan.me/chatbot/DFD1.png?">
+<img src="https://finnigan.me/chatbot/DFD1.png?1">
 
 <h4>GitHub Graphs</h4>
 [todo]
