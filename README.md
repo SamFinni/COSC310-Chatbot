@@ -48,7 +48,7 @@ The chatbot script will timeout after 120 seconds, to prevent abuse.
 
 
 <h3>Dependencies:</h3>
-The NLTK Python library must first be downloaded. Installation instructions for each can be found here:
+The NLTK and Pattern Python libraries must first be downloaded. Installation instructions for each can be found here:
 
 <a href="https://www.nltk.org/install.html">NLTK</a></br>
 <a href="https://github.com/clips/pattern#installation">Pattern</a>
@@ -97,7 +97,7 @@ Doesn't handle context well; user must explicitly mention what they're referring
 
 Can't both save an answer and determine the positivity of a single user response.
 
-If the `+` operator is used, the next 3 lines MUST start with each one of `+`, `-`, and `0`.
+If the `+` operator is used, the next 3 lines MUST start with each one of `+`, `-`, and `0` (any order).
 
 
 <h3>Potential Updates:</h3>
@@ -111,8 +111,6 @@ If the `+` operator is used, the next 3 lines MUST start with each one of `+`, `
 4. Make certain words weighted heavier (why, what, etc) when choosing topics
 
 5. Use first character of topics (. or ?) to weight responses
-
-6. Allow wildcards in topic keywords (eg, 'fav*' matches fave, favorite, and favourite) or look up synonyms
 
 
 
