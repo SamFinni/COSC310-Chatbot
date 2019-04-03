@@ -39,7 +39,7 @@ if ($SP != '') {
 	$_SESSION['dstPort'] = $dstPort;
 	// make sure response is as expected
 	if (utf8_decode($rcv) != "CONNECT") {
-		echo "<script type='text/javascript'>alert('Connection failed.');</script>";
+		echo "<script type='text/javascript'>alert('Connection failed: Please try refreshing the page.');</script>";
 		$_SESSION['srcPort'] = '';
 	}
 	// create session array to hold conversation data
