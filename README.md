@@ -122,20 +122,29 @@ If the `+` operator is used, the next 3 lines MUST start with each one of `+`, `
 <ul>
 <li>GUI</li>
 This allowed the chatbot system to look much more appealing to an average user, and further helped the 'friendly' aspect of the bot.
+<img src="https://puu.sh/DaIWO/49d74d0fb4.jpg">
 <li>Web Server Backend</li>
 By allowing Charles to be hosted on a public-facing web server, it makes him much more accessible, as instead of having to give someone a program they have to set up and run in an interpreter, they can simply enter a web address into their browser.
+<img src="http://puu.sh/DaIXI/9ae7c63e7f.png">
 <li>Extra Topics</li>
 Adding more topics makes the chatbot system more diverse, able to respond to users in a wider array of situations. This makes Charles seem more realistic
+<img src="http://puu.sh/DaIYt/187353fa08.jpg">
+<img src="http://puu.sh/DaIYA/bc54849887.jpg">
 <li>5+ Reasonable Responses</li>
 When Charles doesn't understand the user, it's more user-friendly for him to respond in a multitude of ways, instead of repeating "I didn't understand that" over and over. This also allows for a bit of personality to be added.
+<img src="http://puu.sh/DaIZB/0417535bdb.jpg">
 <li>Spelling Mistake Handling</li>
 Allowing him to understand the user, even if words are slightly mispelled, goes a long way in reducing frustration and increasing believability.
+<img src="http://puu.sh/DaIZS/d9d203100f.jpg">
 <li>POS Tagging</li>
 Using NLTK to handle POS tagging allows Charles to retrieve the appropriate piece of a user's response. When he uses parts of the user's response in return, this makes him seem even more real.
+<img src="http://puu.sh/DaJ0k/ccbe541a2d.jpg">
 <li>Synonym Recognition</li>
 Similar to the spelling mistake handling, allowing Charles to understand words that aren't exactly what he expects makes him seem like he can understand real conversation.
+<img src="https://puu.sh/DaJ3g/7e555345d9.jpg">
 <li>Conversation with another agent</li>
 Enabling Charles to be able to speak with another chatbot shows some interesting aspects of both bots, as well as potentially enabling easier, more dynamic testing to be done.
+<img src="http://puu.sh/DaJ47/c8726330b7.png">
 </ul>
 
 
@@ -146,10 +155,17 @@ Enabling Charles to be able to speak with another chatbot shows some interesting
 <img src="https://finnigan.me/chatbot/DFD1.png?1">
 
 <h4>GitHub Graphs</h4>
-[todo]
+<img src="https://puu.sh/DaIam/57a58788b7.png">
+<img src="https://puu.sh/DaIaL/b031f7c629.png">
 
 <h4>Sample Output</h4>
-[todo]
+<img src="https://puu.sh/DaIHR/540213dc2f.jpg">
+<img src="https://puu.sh/DaIId/021ff1034e.jpg">
+<img src="https://puu.sh/DaIIT/0bada56b53.jpg">
+<img src="https://puu.sh/DaIJy/2d764faf2c.jpg">
+<img src="https://puu.sh/DaIJU/4d8ed528c6.jpg">
+<img src="https://puu.sh/DaISQ/c5a45c7878.jpg">
+
 
 
 <h4>5 Extractable Features</h4>
