@@ -153,6 +153,8 @@ Similar to the spelling mistake handling, allowing Charles to understand words t
 <li>Conversation with another agent</li>
 Enabling Charles to be able to speak with another chatbot shows some interesting aspects of both bots, as well as potentially enabling easier, more dynamic testing to be done.
 </br>
+<img src="http://puu.sh/DaJ8W/301a4e8f76.png">
+</br>
 <img src="http://puu.sh/DaJ47/c8726330b7.png">
 </ul>
 
